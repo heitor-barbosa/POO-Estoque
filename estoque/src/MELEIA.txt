@@ -1,0 +1,12 @@
+mano o projeto ta seguindo o padrao MVC, que pelo visto é o que o povo mais usa.
+M = model
+C = controller
+V = view
+
+no model fica a logica do bagulho, no view fica a interface grafica, 
+e no controller fica o controle da mediação entre os dois anteriores.
+pesquisa mais no google ai sobre esse trem se quiser.
+
+esse persistencia ai o gpt mandou colocar pra ler e escrever nos arquivos.
+
+até o momento é isso, nao fiz muiita coisa mas to cansado pra caralho. flw 
