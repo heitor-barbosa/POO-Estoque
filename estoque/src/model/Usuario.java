@@ -7,7 +7,6 @@ public class Usuario {
 	private String senha;
 	private String nivelAcesso; 	// FUNCIONARIO ou GERENTE
 	
-	
 	// Construtor
 	public Usuario(String nome, String login, String senha, String nivelAcesso) {
 		super();

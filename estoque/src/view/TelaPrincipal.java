@@ -5,10 +5,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaPrincipal extends JFrame {
 
@@ -67,6 +70,14 @@ public class TelaPrincipal extends JFrame {
 		painelUsuario.add(lblCargo);
 		
 		JButton btnVisualizar = new JButton("Visualizar Estoque");
+		btnVisualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaVisualizarTabela telaVisualizarTabela = new TelaVisualizarTabela();
+				telaVisualizarTabela.setLocationRelativeTo(null);
+				telaVisualizarTabela.setVisible(true);
+				
+			}
+		});
 		btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		btnVisualizar.setBounds(29, 298, 236, 132);
 		contentPane.add(btnVisualizar);
@@ -82,4 +93,5 @@ public class TelaPrincipal extends JFrame {
 		btnHistorico.setBounds(521, 298, 236, 132);
 		contentPane.add(btnHistorico);
 	}
+	
 }

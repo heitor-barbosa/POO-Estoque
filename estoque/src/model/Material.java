@@ -5,7 +5,7 @@ public class Material {
 	private int id;
 	private String nome;
 	private String tipo; 	// adesivo, solado, fivela, linha 
-	private String marca;
+	private String marca;	// nao sei nome de marca entao vou inventar: marcaX, marcaY, marcaZ
 	private int quantidade;
 	
 	
@@ -62,7 +62,25 @@ public class Material {
 	
 	
 	// Metodos
-	
+	public void toCSV() {
+		
+	}
+	public static Material fromCSV(String linha) {
+		String[] partes = linha.split(";");
+		int id = Integer.parseInt(partes[0]);
+		String nome = partes[1];
+		String tipo = partes[2];
+		String marca = partes[3];
+		int quantidade = Integer.parseInt(partes[4]);
+		return new Material(id, nome, tipo, marca, quantidade);
+		
+	}
+	// ToString
+	@Override
+	public String toString() {
+		return "Material [id=" + id + ", nome=" + nome + ", tipo=" + tipo + ", marca=" + marca + ", quantidade="
+				+ quantidade + "]";
+	}
 	
 	
 }

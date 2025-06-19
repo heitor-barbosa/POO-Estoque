@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.Material;
+import persistencia.MaterialDAO;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -13,6 +17,8 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
@@ -26,6 +32,7 @@ public class Login extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -82,7 +89,13 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(textoUsuario.getText() != null && !textoUsuario.getText().isEmpty()
 						&& passwordField.getText() != null && !passwordField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(btnNewButton, "informações válidas");
+			
+//					JOptionPane.showMessageDialog(btnNewButton, "informações válidas");
+					dispose();	//	desliga telalogin
+					TelaPrincipal telaPrincipal = new TelaPrincipal();	// cria tela incial
+					telaPrincipal.setVisible(true);
+					telaPrincipal.setLocationRelativeTo(null);
+					
 				} else {
 					JOptionPane.showMessageDialog(btnNewButton, "informações inválidas", "Aviso", JOptionPane.WARNING_MESSAGE);
 				}
