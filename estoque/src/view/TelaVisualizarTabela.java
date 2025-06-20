@@ -25,6 +25,8 @@ public class TelaVisualizarTabela extends JDialog {
 	
 	private ArrayList<Material> materiais;
 
+	
+	
 	/**
 	 * Launch the application.
 	 */
