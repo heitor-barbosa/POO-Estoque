@@ -25,7 +25,7 @@ public class TelaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal frame = new TelaPrincipal();
+					TelaPrincipal frame = new TelaPrincipal("Usuário Teste");
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -35,10 +35,11 @@ public class TelaPrincipal extends JFrame {
 		});
 	}
 
+
 	/**
 	 * Create the frame.
 	 */
-	public TelaPrincipal() {
+	public TelaPrincipal(String nome) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -58,12 +59,12 @@ public class TelaPrincipal extends JFrame {
 		lblBemVindo.setBounds(10, 35, 171, 45);
 		painelUsuario.add(lblBemVindo);
 		
-		JLabel lblNome = new JLabel("Nome");
+		JLabel lblNome = new JLabel(nome);
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 32));
 		lblNome.setBounds(178, 35, 171, 45);
 		painelUsuario.add(lblNome);
 		
-		JLabel lblCargo = new JLabel("Cargo ");
+		JLabel lblCargo = new JLabel("Vendedor");
 		lblCargo.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblCargo.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblCargo.setBounds(529, 75, 171, 45);
