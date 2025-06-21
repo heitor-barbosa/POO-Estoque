@@ -9,7 +9,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import controller.EstoqueController;
 import model.Material;
