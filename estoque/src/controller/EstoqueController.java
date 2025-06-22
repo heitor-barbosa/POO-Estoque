@@ -24,5 +24,15 @@ public class EstoqueController {
 		return lista;
 		
 	}
+	
+	public void botaoAdicionarMaterial(Material material) {
+		// gravação do material no arquivo
+		MaterialDAO matDAO = new MaterialDAO();
+		matDAO.gravarMaterial(material);
+		
+		// atualização da tabela
+		
+//		TelaMovimentarTabela t1 = new TelaMovimentarTabela();
+	}
 
 }

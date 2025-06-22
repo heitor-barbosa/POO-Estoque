@@ -1,11 +1,12 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -44,6 +45,7 @@ public class TelaPrincipal extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -53,6 +55,9 @@ public class TelaPrincipal extends JFrame {
 		painelUsuario.setBounds(46, 42, 700, 120);
 		contentPane.add(painelUsuario);
 		painelUsuario.setLayout(null);
+		painelUsuario.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+
 		
 		JLabel lblBemVindo = new JLabel("Bem Vindo,");
 		lblBemVindo.setFont(new Font("Tahoma", Font.PLAIN, 32));
@@ -61,13 +66,13 @@ public class TelaPrincipal extends JFrame {
 		
 		JLabel lblNome = new JLabel(nome);
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		lblNome.setBounds(178, 35, 171, 45);
+		lblNome.setBounds(178, 35, 390, 45);
 		painelUsuario.add(lblNome);
 		
 		JLabel lblCargo = new JLabel("Vendedor");
 		lblCargo.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblCargo.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblCargo.setBounds(529, 75, 171, 45);
+		lblCargo.setBounds(519, 72, 171, 37);
 		painelUsuario.add(lblCargo);
 		
 		JButton btnVisualizar = new JButton("Visualizar Estoque");
@@ -84,6 +89,13 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(btnVisualizar);
 		
 		JButton btnMovimentar = new JButton("Movimentar Estoque");
+		btnMovimentar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaMovimentarTabela telaMovimentarTabela = new TelaMovimentarTabela();
+				telaMovimentarTabela.setLocationRelativeTo(null);
+				telaMovimentarTabela.setVisible(true);
+			}
+		});
 		btnMovimentar.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		btnMovimentar.setBounds(275, 298, 236, 132);
 		contentPane.add(btnMovimentar);

@@ -13,7 +13,7 @@ public class UsuarioController {
 
             for (Usuario u : usuarios) {
                 if (u.getLogin().equals(login) && u.getSenha().equals(senha)) {
-                    return u.getNome(); // ou retornar o objeto Usuario inteiro, se preferir
+                    return u.getNome(); 
                 }
             }
         } catch (Exception e) {
