@@ -156,9 +156,9 @@ public class TelaMovimentarTabela extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			
 			{
-				JButton voltarButton = new JButton("Voltar");
-				buttonPane.add(voltarButton);
-				voltarButton.addActionListener(e -> {
+				JButton cancelButton = new JButton("Voltar");
+				buttonPane.add(cancelButton);
+				cancelButton.addActionListener(e -> {
 				    dispose();
 				});
 			}
