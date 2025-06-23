@@ -87,6 +87,46 @@ public class MaterialDAO {
 		}
     }
 	
+	public void editarMaterial(Material materialParaEditar) {
+		Path path = Paths.get("dados/produtos.csv");
+	    List<String> linhas = null;
+		try {
+			linhas = Files.readAllLines(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    List<String> linhasAtualizadas = new ArrayList<>();
+
+	    for (String linha : linhas) {
+	        if (!linha.trim().isEmpty()) {
+	            String[] partes = linha.split(";");
+	            int idLinha = Integer.parseInt(partes[0].trim());
+
+	            if (idLinha == materialParaEditar.getId()) {
+	                // Substitui a linha pelo material atualizado
+	                String novaLinha = materialParaEditar.getId() + ";" +
+	                                   materialParaEditar.getNome() + ";" +
+	                                   materialParaEditar.getTipo() + ";" +
+	                                   materialParaEditar.getMarca() + ";" +
+	                                   materialParaEditar.getQuantidade();
+	                linhasAtualizadas.add(novaLinha);
+	            } else {
+	                linhasAtualizadas.add(linha);
+	            }
+	        }
+	    }
+
+	    // Regrava o arquivo inteiro com as alterações
+	    try {
+			Files.write(path, linhasAtualizadas);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	public int gerarId() {
 	    try (BufferedReader br = new BufferedReader(new FileReader("dados/produtos.csv"))) {
@@ -112,6 +152,8 @@ public class MaterialDAO {
 	    }
 	    return 0;
 	}
+
+	
 
 	
 }

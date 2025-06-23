@@ -74,8 +74,8 @@ public class TelaMovimentarTabela extends JDialog {
 		
 		}
 		
-		JButton btnNewButton = new JButton("Adicionar Material");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnAdicionarMaterial = new JButton("Adicionar Material");
+		btnAdicionarMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Formulario para pegar informaçoes do produto 
 				JTextField txtNome = new JTextField();
@@ -115,14 +115,14 @@ public class TelaMovimentarTabela extends JDialog {
 				        table.setModel(new ModeloTabela(listaAtualizada));
 				        
 				    } catch (NumberFormatException e1) {
-				        JOptionPane.showMessageDialog(null, "ID e Quantidade devem ser números válidos!", "Erro", JOptionPane.ERROR_MESSAGE);
+				        JOptionPane.showMessageDialog(null, "Quantidade deve ser número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
 				    }
 				}
 				
 			}
 		});
-		btnNewButton.setBounds(23, 23, 157, 23);
-		contentPanel.add(btnNewButton);
+		btnAdicionarMaterial.setBounds(23, 23, 157, 23);
+		contentPanel.add(btnAdicionarMaterial);
 		
 		JButton btnRemoverMaterial = new JButton("Remover Material");
 		btnRemoverMaterial.addActionListener(new ActionListener() {
@@ -135,7 +135,7 @@ public class TelaMovimentarTabela extends JDialog {
 			    panel.add(txtId);
 
 			    int result = JOptionPane.showConfirmDialog(
-			        null, panel, "Adicionar Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			        null, panel, "Remover Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 			    if (result == JOptionPane.OK_OPTION) {
 			        try {
@@ -158,6 +158,73 @@ public class TelaMovimentarTabela extends JDialog {
 		contentPanel.add(btnRemoverMaterial);
 		
 		JButton btnEditarMaterial = new JButton("Editar Material");
+		btnEditarMaterial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Formulário simples para pegar apenas o ID do material
+				int idParaEditar = 0;
+			    JTextField txtId = new JTextField();
+
+			    JPanel panel = new JPanel(new GridLayout(0, 1));
+			    panel.add(new JLabel("ID:"));
+			    panel.add(txtId);
+
+			    int result = JOptionPane.showConfirmDialog(
+			        null, panel, "Editar Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+			    if (result == JOptionPane.OK_OPTION) {
+			        try {
+			            idParaEditar = Integer.parseInt(txtId.getText());
+			            
+			        } catch (NumberFormatException ex) {
+			            JOptionPane.showMessageDialog(null, "Por favor, digite um número válido para o ID.", "Erro", JOptionPane.ERROR_MESSAGE);
+			        }
+			    }
+				
+			    
+			 // Formulario para pegar informaçoes do produto 
+				JTextField txtNome = new JTextField();
+				JComboBox<String> cbTipo = new JComboBox<>(new String[]{"Adesivo", "Solado", "Fivela", "Linha"});
+				JComboBox<String> cbMarca = new JComboBox<>(new String[]{"MarcaX", "MarcaY", "MarcaZ"});
+				JTextField txtQuantidade = new JTextField();
+
+				JPanel panel1 = new JPanel(new GridLayout(0, 1));
+				panel1.add(new JLabel("Nome:"));
+				panel1.add(txtNome);
+				panel1.add(new JLabel("Tipo:"));
+				panel1.add(cbTipo);
+				panel1.add(new JLabel("Marca:"));
+				panel1.add(cbMarca);
+				panel1.add(new JLabel("Quantidade:"));
+				panel1.add(txtQuantidade);
+
+				int result1 = JOptionPane.showConfirmDialog(
+				    null, panel1, "Editar Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				if (result1 == JOptionPane.OK_OPTION) {
+				    try {
+				        int id = idParaEditar;
+				        String nome = txtNome.getText();
+				        String tipo = (String) cbTipo.getSelectedItem();
+				        String marca = (String) cbMarca.getSelectedItem();
+				        int quantidade = Integer.parseInt(txtQuantidade.getText());
+				        
+				        // Cria material novo com os dados, e chama o controller
+				        Material materialEditado = new Material(id, nome, tipo, marca, quantidade);
+				        controller.botaoEditarMaterial(materialEditado);
+
+				        JOptionPane.showMessageDialog(null, "Material editado com sucesso!");
+				        
+				        // Chama controller novamente para atualizar a tabela
+				        ArrayList<Material> listaAtualizada = controller.getMateriais();
+				        table.setModel(new ModeloTabela(listaAtualizada));
+				        
+				    } catch (NumberFormatException e1) {
+				        JOptionPane.showMessageDialog(null, "Quantidade deve ser número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+				    }
+				}
+				
+			}
+		});
 		btnEditarMaterial.setBounds(428, 23, 157, 23);
 		contentPanel.add(btnEditarMaterial);
 		

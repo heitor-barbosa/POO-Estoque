@@ -35,6 +35,13 @@ public class EstoqueController {
 		matDAO.removerMaterialPorId(id);
 	}
 	
+	public void botaoEditarMaterial(Material materialParaEditar) {
+		MaterialDAO matDAO = new MaterialDAO();
+		matDAO.editarMaterial(materialParaEditar);
+		
+	}
+	
+	
 	
 	public int gerarId() {
 		MaterialDAO matDAO = new MaterialDAO();
@@ -43,6 +50,8 @@ public class EstoqueController {
 		
 		return novoId;
 	}
+
+	
 
 	
 
