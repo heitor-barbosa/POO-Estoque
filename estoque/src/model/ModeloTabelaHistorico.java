@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ModeloTabelaHistorico extends AbstractTableModel {
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
     private String[] colunas = {"ID", "Tipo", "Material", "Quantidade", "Data"};
     private ArrayList<MovimentacaoEstoque> movimentacoes;
 

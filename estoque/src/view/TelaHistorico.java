@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import controller.EstoqueController;
-import model.MovimentacaoHistorico;
+//import model.MovimentacaoHistorico;
 import model.ModeloTabelaHistorico;
 import model.MovimentacaoEstoque;
 

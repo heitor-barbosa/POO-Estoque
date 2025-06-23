@@ -15,12 +15,11 @@ import java.util.List;
 import model.Material;
 
 public class MaterialDAO {
-	
+	private static String nomeDoArquivo = "dados/produtos.csv";
 	
 	
 	// Metodos
 	public ArrayList<Material> lerMateriais() throws IOException {
-	    String nomeDoArquivo = "dados/produtos.csv";
 	    File arquivo = new File(nomeDoArquivo);
 
 	    if (!arquivo.exists()) {
@@ -41,7 +40,6 @@ public class MaterialDAO {
 	}
 	
 	public void gravarMaterial(Material material) {
-		String nomeDoArquivo = "dados/produtos.csv";
 		String linha = String.valueOf(material.getId()) + ";" + material.getNome() + ";" + material.getTipo() + ";" + material.getMarca() + ";" + material.getQuantidade();
 		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeDoArquivo, true))) {
@@ -53,7 +51,7 @@ public class MaterialDAO {
 	}
 	
 	public void removerMaterialPorId(int id) {
-        Path path = Paths.get("dados/produtos.csv");
+        Path path = Paths.get(nomeDoArquivo);
         List<String> linhas = null;
 		try {
 			linhas = Files.readAllLines(path);
@@ -88,7 +86,7 @@ public class MaterialDAO {
     }
 	
 	public void editarMaterial(Material materialParaEditar) {
-		Path path = Paths.get("dados/produtos.csv");
+		Path path = Paths.get(nomeDoArquivo);
 	    List<String> linhas = null;
 		try {
 			linhas = Files.readAllLines(path);
@@ -126,10 +124,35 @@ public class MaterialDAO {
 		}
 	}
 	
+//	public void buscarMaterial(String nomeBuscado) {
+//		
+//		
+//	}
+	public int buscarMaterial(String nomeBusca) {
+	    try (BufferedReader br = new BufferedReader(new FileReader(nomeDoArquivo))) {
+	        String linha;
+	        while ((linha = br.readLine()) != null) {
+	            String[] partes = linha.split(";");
+	            if (partes.length > 1) {
+	                String nome = partes[1];
+	                if (nome.toLowerCase().contains(nomeBusca.toLowerCase())) {
+	                    return Integer.parseInt(partes[0]); // Retorna o ID
+	                }
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (NumberFormatException e) {
+	        System.out.println("Erro ao converter o ID para número.");
+	    }
+
+	    return -1; // Se não encontrar
+	}
+
 	
 	
 	public int gerarId() {
-	    try (BufferedReader br = new BufferedReader(new FileReader("dados/produtos.csv"))) {
+	    try (BufferedReader br = new BufferedReader(new FileReader(nomeDoArquivo))) {
 	        String linha;
 	        String ultimaLinhaValida = null;
 

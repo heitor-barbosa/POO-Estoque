@@ -1,6 +1,9 @@
 package model;
 
-public class Material {
+import java.io.Serializable;
+
+public class Material implements Serializable{
+//	private static final long serialVersionUID = 1L;
 	// Atributos
 	private int id;
 	private String nome;

@@ -240,10 +240,44 @@ public class TelaMovimentarTabela extends JDialog {
 		txtBusqueUmMaterial.setText("Busque um material aqui");
 		txtBusqueUmMaterial.setToolTipText("");
 		txtBusqueUmMaterial.setColumns(10);
+		txtBusqueUmMaterial.addFocusListener(new java.awt.event.FocusAdapter() {
+		    @Override
+		    public void focusGained(java.awt.event.FocusEvent e) {
+		        if (txtBusqueUmMaterial.getText().equals("Busque um material aqui")) {
+		            txtBusqueUmMaterial.setText("");
+		        }
+		    }
+
+		    @Override
+		    public void focusLost(java.awt.event.FocusEvent e) {
+		        if (txtBusqueUmMaterial.getText().isEmpty()) {
+		            txtBusqueUmMaterial.setText("Busque um material aqui");
+		        }
+		    }
+		});
 		
-		JButton btnNewButton_1 = new JButton("Buscar");
-		btnNewButton_1.setBounds(270, 4, 80, 23);
-		BarraPesquisa.add(btnNewButton_1);
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nomeBuscado = null;
+				if (!txtBusqueUmMaterial.getText().isEmpty() && txtBusqueUmMaterial.getText() != null) {
+					nomeBuscado = txtBusqueUmMaterial.getText();
+				}
+				if (controller.botaoBuscarMaterial(nomeBuscado) != -1) {
+					int idEncontrado = controller.botaoBuscarMaterial(nomeBuscado);
+					table.setRowSelectionInterval(idEncontrado, idEncontrado);
+					table.scrollRectToVisible(table.getCellRect(idEncontrado, 0, true));
+				} else {
+					JOptionPane.showMessageDialog(null, "Nenhum material encontrado com esse nome.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+				}
+					
+				
+				
+				
+			}
+		});
+		btnBuscar.setBounds(270, 4, 80, 23);
+		BarraPesquisa.add(btnBuscar);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

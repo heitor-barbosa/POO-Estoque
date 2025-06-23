@@ -13,6 +13,7 @@ public class EstoqueController {
 
     private ArrayList<MovimentacaoEstoque> historico;
     private MovimentacaoEstoqueDAO movDAO = new MovimentacaoEstoqueDAO();
+    private MaterialDAO matDAO = new MaterialDAO();
 
     private EstoqueController() {
         historico = movDAO.carregarHistorico();  // Carrega o histórico do arquivo ao iniciar
@@ -28,7 +29,6 @@ public class EstoqueController {
     // ========== MATERIAIS ==========
 
     public ArrayList<Material> getMateriais() {
-        MaterialDAO matDAO = new MaterialDAO();
         ArrayList<Material> lista = new ArrayList<>();
         try {
             lista = matDAO.lerMateriais();
@@ -39,13 +39,11 @@ public class EstoqueController {
     }
 
     public void botaoAdicionarMaterial(Material material) {
-        MaterialDAO matDAO = new MaterialDAO();
         matDAO.gravarMaterial(material);
         registrarMovimentacao("ENTRADA", material, material.getQuantidade());  // Registra no histórico
     }
 
     public void botaoRemoverMaterial(int id) {
-        MaterialDAO matDAO = new MaterialDAO();
         Material removido = matDAO.getMaterialPorId(id); // Pega material antes de remover
         if (removido != null) {
             matDAO.removerMaterialPorId(id);
@@ -54,13 +52,20 @@ public class EstoqueController {
     }
 
     public void botaoEditarMaterial(Material materialParaEditar) {
-        MaterialDAO matDAO = new MaterialDAO();
         matDAO.editarMaterial(materialParaEditar);
         registrarMovimentacao("EDIÇÃO", materialParaEditar, materialParaEditar.getQuantidade());  // Opcional
     }
-
+    
+    public int botaoBuscarMaterial(String nomeBuscado) {
+		if (matDAO.buscarMaterial(nomeBuscado) != -1) {
+			int idMaterialEncontrado = matDAO.buscarMaterial(nomeBuscado);
+			return --idMaterialEncontrado;
+		}
+		return -1;
+		
+	}
+    
     public int gerarId() {
-        MaterialDAO matDAO = new MaterialDAO();
         int novoId = matDAO.gerarId();
         novoId++;
         return novoId;
@@ -89,4 +94,5 @@ public class EstoqueController {
         }
         return maiorId + 1;
     }
+
 }
