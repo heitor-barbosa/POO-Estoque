@@ -22,17 +22,28 @@ public class EstoqueController {
 			e.printStackTrace();
 		}
 		return lista;
-		
 	}
 	
 	public void botaoAdicionarMaterial(Material material) {
 		// gravação do material no arquivo
 		MaterialDAO matDAO = new MaterialDAO();
 		matDAO.gravarMaterial(material);
-		
-		// atualização da tabela
-		
-//		TelaMovimentarTabela t1 = new TelaMovimentarTabela();
 	}
+	
+	public void botaoRemoverMaterial(int id) {
+		MaterialDAO matDAO = new MaterialDAO();
+		matDAO.removerMaterialPorId(id);
+	}
+	
+	
+	public int gerarId() {
+		MaterialDAO matDAO = new MaterialDAO();
+		int novoId = matDAO.gerarId();
+		novoId++;
+		
+		return novoId;
+	}
+
+	
 
 }

@@ -78,15 +78,12 @@ public class TelaMovimentarTabela extends JDialog {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Formulario para pegar informaçoes do produto 
-				JTextField txtId = new JTextField();
 				JTextField txtNome = new JTextField();
 				JComboBox<String> cbTipo = new JComboBox<>(new String[]{"Adesivo", "Solado", "Fivela", "Linha"});
 				JComboBox<String> cbMarca = new JComboBox<>(new String[]{"MarcaX", "MarcaY", "MarcaZ"});
 				JTextField txtQuantidade = new JTextField();
 
 				JPanel panel = new JPanel(new GridLayout(0, 1));
-				panel.add(new JLabel("ID:"));
-				panel.add(txtId);
 				panel.add(new JLabel("Nome:"));
 				panel.add(txtNome);
 				panel.add(new JLabel("Tipo:"));
@@ -101,7 +98,7 @@ public class TelaMovimentarTabela extends JDialog {
 
 				if (result == JOptionPane.OK_OPTION) {
 				    try {
-				        int id = Integer.parseInt(txtId.getText());
+				        int id = controller.gerarId();
 				        String nome = txtNome.getText();
 				        String tipo = (String) cbTipo.getSelectedItem();
 				        String marca = (String) cbMarca.getSelectedItem();
@@ -127,9 +124,38 @@ public class TelaMovimentarTabela extends JDialog {
 		btnNewButton.setBounds(23, 23, 157, 23);
 		contentPanel.add(btnNewButton);
 		
-		JButton btnRemoverProduto = new JButton("Remover Material");
-		btnRemoverProduto.setBounds(225, 23, 157, 23);
-		contentPanel.add(btnRemoverProduto);
+		JButton btnRemoverMaterial = new JButton("Remover Material");
+		btnRemoverMaterial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Formulário simples para pegar apenas o ID do material
+			    JTextField txtId = new JTextField();
+
+			    JPanel panel = new JPanel(new GridLayout(0, 1));
+			    panel.add(new JLabel("ID:"));
+			    panel.add(txtId);
+
+			    int result = JOptionPane.showConfirmDialog(
+			        null, panel, "Adicionar Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+			    if (result == JOptionPane.OK_OPTION) {
+			        try {
+			            int id = Integer.parseInt(txtId.getText());
+			            controller.botaoRemoverMaterial(id);
+
+			            JOptionPane.showMessageDialog(null, "Item removido!");
+			            
+			         // Chama controller novamente para atualizar a tabela
+				        ArrayList<Material> listaAtualizada = controller.getMateriais();
+				        table.setModel(new ModeloTabela(listaAtualizada));
+				        
+			        } catch (NumberFormatException ex) {
+			            JOptionPane.showMessageDialog(null, "Por favor, digite um número válido para o ID.", "Erro", JOptionPane.ERROR_MESSAGE);
+			        }
+			    }
+			}
+		});
+		btnRemoverMaterial.setBounds(225, 23, 157, 23);
+		contentPanel.add(btnRemoverMaterial);
 		
 		JButton btnEditarMaterial = new JButton("Editar Material");
 		btnEditarMaterial.setBounds(428, 23, 157, 23);
