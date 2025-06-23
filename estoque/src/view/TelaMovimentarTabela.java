@@ -61,7 +61,8 @@ public class TelaMovimentarTabela extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		// Chamar controller para buscar dados para povoar a tabela
-		EstoqueController controller = new EstoqueController();
+		EstoqueController controller = EstoqueController.getInstance();
+
 		materiais = controller.getMateriais();
 		
 		// Setando o modelo de tabela criado

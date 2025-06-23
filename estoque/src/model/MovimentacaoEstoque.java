@@ -1,29 +1,31 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class MovimentacaoEstoque {
-	// Atributos
-	private int id;
-	private String tipo; 	// ENTRADA ou SAIDA
-	private int qtdMovimentada;
-	private LocalDateTime dataHora;
-	private Material materialMovimentado;
-//	private Usuario usuarioResponsavel; 	// podemos colocar ou nao, vamos fazendo e no final a gente decide
-	
-	
-	// Construtor
-	public MovimentacaoEstoque(int id, String tipo, int qtdNecessaria, LocalDateTime dataHora, Material materialMovimentado) {
-		super();
-		this.id = id;
-		this.tipo = tipo;
-		this.qtdMovimentada = qtdNecessaria;
-		this.dataHora = dataHora;
-		this.materialMovimentado = materialMovimentado;
-	}
-	public MovimentacaoEstoque() {
-		this.dataHora = LocalDateTime.now();	 // Data e hora sao registradas na criação da movimentação 
-	}
+public class MovimentacaoEstoque implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    // Atributos
+    private int id;
+    private String tipo;  // ENTRADA ou SAIDA
+    private int qtdMovimentada;
+    private LocalDateTime dataHora;
+    private Material materialMovimentado;
+
+    // Construtores
+    public MovimentacaoEstoque(int id, String tipo, int qtdMovimentada, LocalDateTime dataHora, Material materialMovimentado) {
+        super();
+        this.id = id;
+        this.tipo = tipo;
+        this.qtdMovimentada = qtdMovimentada;
+        this.dataHora = dataHora;
+        this.materialMovimentado = materialMovimentado;
+    }
+
+    public MovimentacaoEstoque() {
+        this.dataHora = LocalDateTime.now();
+    }
 
 	
 	// Getter e Setter

@@ -100,11 +100,18 @@ public class TelaPrincipal extends JFrame {
 		btnMovimentar.setBounds(275, 298, 236, 132);
 		contentPane.add(btnMovimentar);
 		
-		JButton btnHistorico = new JButton("<html>Historico de<br>Movimentações<html>");
+		JButton btnHistorico = new JButton("<html>Histórico de<br>Movimentações</html>");
 		btnHistorico.setToolTipText("");
 		btnHistorico.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		btnHistorico.setBounds(521, 298, 236, 132);
 		contentPane.add(btnHistorico);
+
+		btnHistorico.addActionListener(e -> {
+		    TelaHistorico tela = new TelaHistorico();
+		    tela.setLocationRelativeTo(null);
+		    tela.setVisible(true);
+		});
+
 	}
 	
 }

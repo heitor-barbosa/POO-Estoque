@@ -153,7 +153,18 @@ public class MaterialDAO {
 	    return 0;
 	}
 
-	
+	public Material getMaterialPorId(int id) {
+	    try {
+	        ArrayList<Material> lista = lerMateriais();
+	        for (Material m : lista) {
+	            if (m.getId() == id) {
+	                return m;
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return null; // se não encontrar
+	}
 
-	
 }
