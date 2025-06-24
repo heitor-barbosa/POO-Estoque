@@ -65,6 +65,10 @@ public class EstoqueController {
 		
 	}
     
+    public Material getMaterialPorId(int id) {
+    	return matDAO.getMaterialPorId(id);
+	}
+    
     public int gerarId() {
         int novoId = matDAO.gerarId();
         novoId++;

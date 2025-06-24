@@ -180,6 +180,14 @@ public class TelaMovimentarTabela extends JDialog {
 			            JOptionPane.showMessageDialog(null, "Por favor, digite um número válido para o ID.", "Erro", JOptionPane.ERROR_MESSAGE);
 			        }
 			    }
+			    
+			    // Preencher o formulario con as informacoes antigas
+			    Material materialAntigo = null;
+			    if (controller.getMaterialPorId(idParaEditar) != null) {
+			    	materialAntigo = controller.getMaterialPorId(idParaEditar);
+			    } else {
+			    	
+			    }
 				
 			    
 			 // Formulario para pegar informaçoes do produto 
@@ -191,12 +199,16 @@ public class TelaMovimentarTabela extends JDialog {
 				JPanel panel1 = new JPanel(new GridLayout(0, 1));
 				panel1.add(new JLabel("Nome:"));
 				panel1.add(txtNome);
+				txtNome.setText(materialAntigo.getNome());
 				panel1.add(new JLabel("Tipo:"));
 				panel1.add(cbTipo);
+				cbTipo.setSelectedItem(materialAntigo.getTipo());
 				panel1.add(new JLabel("Marca:"));
 				panel1.add(cbMarca);
+				cbMarca.setSelectedItem(materialAntigo.getMarca());
 				panel1.add(new JLabel("Quantidade:"));
 				panel1.add(txtQuantidade);
+				txtQuantidade.setText(Integer.toString(materialAntigo.getQuantidade()));
 
 				int result1 = JOptionPane.showConfirmDialog(
 				    null, panel1, "Editar Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -271,9 +283,6 @@ public class TelaMovimentarTabela extends JDialog {
 					JOptionPane.showMessageDialog(null, "Nenhum material encontrado com esse nome.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 				}
 					
-				
-				
-				
 			}
 		});
 		btnBuscar.setBounds(270, 4, 80, 23);
