@@ -22,17 +22,30 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Tela responsável por permitir a movimentação de materiais no estoque.
+ * Oferece funcionalidades para adicionar, editar, remover e buscar materiais.
+ */
 public class TelaMovimentarTabela extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+
+	/** Painel principal da tela. */
 	private final JPanel contentPanel = new JPanel();
+
+	/** Tabela que exibe os materiais. */
 	private JTable table;
-	
+
+	/** Lista de materiais a ser exibida e manipulada. */
 	private ArrayList<Material> materiais;
+
+	/** Campo de texto usado para buscar materiais por nome. */
 	private JTextField txtBusqueUmMaterial;
 
 	/**
-	 * Launch the application.
+	 * Método principal para executar a tela isoladamente.
+	 * 
+	 * @param args Argumentos da linha de comando.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -45,7 +58,7 @@ public class TelaMovimentarTabela extends JDialog {
 	}
 
 	/**
-	 * Create the dialog.
+	 * Construtor da tela de movimentação de materiais.
 	 */
 	public TelaMovimentarTabela() {
 		setModal(true);
@@ -55,30 +68,31 @@ public class TelaMovimentarTabela extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
+		// Componente de rolagem que conterá a tabela
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 69, 964, 448);
 		contentPanel.add(scrollPane);
-		
-		// Chamar controller para buscar dados para povoar a tabela
-		EstoqueController controller = EstoqueController.getInstance();
 
+		// Busca os materiais via controller
+		EstoqueController controller = EstoqueController.getInstance();
 		materiais = controller.getMateriais();
-		
-		// Setando o modelo de tabela criado
+
+		// Define o modelo da tabela com os dados carregados
 		ModeloTabela modeloTabela = new ModeloTabela(materiais);
-		
 		{
 			table = new JTable();
 			scrollPane.setViewportView(table);
 			table.setModel(modeloTabela);
-		
 		}
-		
+
+		/**
+		 * Botão para adicionar um novo material ao estoque.
+		 */
 		JButton btnAdicionarMaterial = new JButton("Adicionar Material");
 		btnAdicionarMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Formulario para pegar informaçoes do produto 
+				// Formulário para adicionar um novo material
 				JTextField txtNome = new JTextField();
 				JComboBox<String> cbTipo = new JComboBox<>(new String[]{"Adesivo", "Solado", "Fivela", "Linha"});
 				JComboBox<String> cbMarca = new JComboBox<>(new String[]{"MarcaX", "MarcaY", "MarcaZ"});
@@ -95,210 +109,199 @@ public class TelaMovimentarTabela extends JDialog {
 				panel.add(txtQuantidade);
 
 				int result = JOptionPane.showConfirmDialog(
-				    null, panel, "Adicionar Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+					null, panel, "Adicionar Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 				if (result == JOptionPane.OK_OPTION) {
-				    try {
-				        int id = controller.gerarId();
-				        String nome = txtNome.getText();
-				        String tipo = (String) cbTipo.getSelectedItem();
-				        String marca = (String) cbMarca.getSelectedItem();
-				        int quantidade = Integer.parseInt(txtQuantidade.getText());
-				        
-				        // Cria material com os dados fornecidos, e chama o controller
-				        Material material = new Material(id, nome, tipo, marca, quantidade);
-				        controller.botaoAdicionarMaterial(material);
+					try {
+						int id = controller.gerarId();
+						String nome = txtNome.getText();
+						String tipo = (String) cbTipo.getSelectedItem();
+						String marca = (String) cbMarca.getSelectedItem();
+						int quantidade = Integer.parseInt(txtQuantidade.getText());
 
-				        JOptionPane.showMessageDialog(null, "Material adicionado com sucesso!");
-				        
-				        // Chama controller novamente para atualizar a tabela
-				        ArrayList<Material> listaAtualizada = controller.getMateriais();
-				        table.setModel(new ModeloTabela(listaAtualizada));
-				        
-				    } catch (NumberFormatException e1) {
-				        JOptionPane.showMessageDialog(null, "Quantidade deve ser número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
-				    }
+						Material material = new Material(id, nome, tipo, marca, quantidade);
+						controller.botaoAdicionarMaterial(material);
+
+						JOptionPane.showMessageDialog(null, "Material adicionado com sucesso!");
+
+						ArrayList<Material> listaAtualizada = controller.getMateriais();
+						table.setModel(new ModeloTabela(listaAtualizada));
+
+					} catch (NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Quantidade deve ser número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
 				}
-				
 			}
 		});
 		btnAdicionarMaterial.setBounds(23, 23, 157, 23);
 		contentPanel.add(btnAdicionarMaterial);
-		
+
+		/**
+		 * Botão para remover material a partir do ID informado.
+		 */
 		JButton btnRemoverMaterial = new JButton("Remover Material");
 		btnRemoverMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Formulário simples para pegar apenas o ID do material
-			    JTextField txtId = new JTextField();
+				JTextField txtId = new JTextField();
+				JPanel panel = new JPanel(new GridLayout(0, 1));
+				panel.add(new JLabel("ID:"));
+				panel.add(txtId);
 
-			    JPanel panel = new JPanel(new GridLayout(0, 1));
-			    panel.add(new JLabel("ID:"));
-			    panel.add(txtId);
+				int result = JOptionPane.showConfirmDialog(
+					null, panel, "Remover Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-			    int result = JOptionPane.showConfirmDialog(
-			        null, panel, "Remover Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				if (result == JOptionPane.OK_OPTION) {
+					try {
+						int id = Integer.parseInt(txtId.getText());
+						controller.botaoRemoverMaterial(id);
+						JOptionPane.showMessageDialog(null, "Item removido!");
 
-			    if (result == JOptionPane.OK_OPTION) {
-			        try {
-			            int id = Integer.parseInt(txtId.getText());
-			            controller.botaoRemoverMaterial(id);
-
-			            JOptionPane.showMessageDialog(null, "Item removido!");
-			            
-			         // Chama controller novamente para atualizar a tabela
-				        ArrayList<Material> listaAtualizada = controller.getMateriais();
-				        table.setModel(new ModeloTabela(listaAtualizada));
-				        
-			        } catch (NumberFormatException ex) {
-			            JOptionPane.showMessageDialog(null, "Por favor, digite um número válido para o ID.", "Erro", JOptionPane.ERROR_MESSAGE);
-			        }
-			    }
+						ArrayList<Material> listaAtualizada = controller.getMateriais();
+						table.setModel(new ModeloTabela(listaAtualizada));
+					} catch (NumberFormatException ex) {
+						JOptionPane.showMessageDialog(null, "Por favor, digite um número válido para o ID.", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
+				}
 			}
 		});
 		btnRemoverMaterial.setBounds(225, 23, 157, 23);
 		contentPanel.add(btnRemoverMaterial);
-		
+
+		/**
+		 * Botão para editar um material existente, a partir do ID informado.
+		 */
 		JButton btnEditarMaterial = new JButton("Editar Material");
 		btnEditarMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Formulário simples para pegar apenas o ID do material
 				int idParaEditar = 0;
-			    JTextField txtId = new JTextField();
+				JTextField txtId = new JTextField();
+				JPanel panel = new JPanel(new GridLayout(0, 1));
+				panel.add(new JLabel("ID:"));
+				panel.add(txtId);
 
-			    JPanel panel = new JPanel(new GridLayout(0, 1));
-			    panel.add(new JLabel("ID:"));
-			    panel.add(txtId);
+				int result = JOptionPane.showConfirmDialog(
+					null, panel, "Editar Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-			    int result = JOptionPane.showConfirmDialog(
-			        null, panel, "Editar Material (ID)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				if (result == JOptionPane.OK_OPTION) {
+					try {
+						idParaEditar = Integer.parseInt(txtId.getText());
+					} catch (NumberFormatException ex) {
+						JOptionPane.showMessageDialog(null, "Por favor, digite um número válido para o ID.", "Erro", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				}
 
-			    if (result == JOptionPane.OK_OPTION) {
-			        try {
-			            idParaEditar = Integer.parseInt(txtId.getText());
-			            
-			        } catch (NumberFormatException ex) {
-			            JOptionPane.showMessageDialog(null, "Por favor, digite um número válido para o ID.", "Erro", JOptionPane.ERROR_MESSAGE);
-			        }
-			    }
-			    
-			    // Preencher o formulario con as informacoes antigas
-			    Material materialAntigo = null;
-			    if (controller.getMaterialPorId(idParaEditar) != null) {
-			    	materialAntigo = controller.getMaterialPorId(idParaEditar);
-			    } else {
-			    	
-			    }
-				
-			    
-			 // Formulario para pegar informaçoes do produto 
-				JTextField txtNome = new JTextField();
+				Material materialAntigo = controller.getMaterialPorId(idParaEditar);
+				if (materialAntigo == null) {
+					JOptionPane.showMessageDialog(null, "ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				// Formulário de edição com dados antigos preenchidos
+				JTextField txtNome = new JTextField(materialAntigo.getNome());
 				JComboBox<String> cbTipo = new JComboBox<>(new String[]{"Adesivo", "Solado", "Fivela", "Linha"});
+				cbTipo.setSelectedItem(materialAntigo.getTipo());
 				JComboBox<String> cbMarca = new JComboBox<>(new String[]{"MarcaX", "MarcaY", "MarcaZ"});
-				JTextField txtQuantidade = new JTextField();
+				cbMarca.setSelectedItem(materialAntigo.getMarca());
+				JTextField txtQuantidade = new JTextField(String.valueOf(materialAntigo.getQuantidade()));
 
 				JPanel panel1 = new JPanel(new GridLayout(0, 1));
 				panel1.add(new JLabel("Nome:"));
 				panel1.add(txtNome);
-				txtNome.setText(materialAntigo.getNome());
 				panel1.add(new JLabel("Tipo:"));
 				panel1.add(cbTipo);
-				cbTipo.setSelectedItem(materialAntigo.getTipo());
 				panel1.add(new JLabel("Marca:"));
 				panel1.add(cbMarca);
-				cbMarca.setSelectedItem(materialAntigo.getMarca());
 				panel1.add(new JLabel("Quantidade:"));
 				panel1.add(txtQuantidade);
-				txtQuantidade.setText(Integer.toString(materialAntigo.getQuantidade()));
 
 				int result1 = JOptionPane.showConfirmDialog(
-				    null, panel1, "Editar Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+					null, panel1, "Editar Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 				if (result1 == JOptionPane.OK_OPTION) {
-				    try {
-				        int id = idParaEditar;
-				        String nome = txtNome.getText();
-				        String tipo = (String) cbTipo.getSelectedItem();
-				        String marca = (String) cbMarca.getSelectedItem();
-				        int quantidade = Integer.parseInt(txtQuantidade.getText());
-				        
-				        // Cria material novo com os dados, e chama o controller
-				        Material materialEditado = new Material(id, nome, tipo, marca, quantidade);
-				        controller.botaoEditarMaterial(materialEditado);
+					try {
+						String nome = txtNome.getText();
+						String tipo = (String) cbTipo.getSelectedItem();
+						String marca = (String) cbMarca.getSelectedItem();
+						int quantidade = Integer.parseInt(txtQuantidade.getText());
 
-				        JOptionPane.showMessageDialog(null, "Material editado com sucesso!");
-				        
-				        // Chama controller novamente para atualizar a tabela
-				        ArrayList<Material> listaAtualizada = controller.getMateriais();
-				        table.setModel(new ModeloTabela(listaAtualizada));
-				        
-				    } catch (NumberFormatException e1) {
-				        JOptionPane.showMessageDialog(null, "Quantidade deve ser número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
-				    }
+						Material materialEditado = new Material(idParaEditar, nome, tipo, marca, quantidade);
+						controller.botaoEditarMaterial(materialEditado);
+
+						JOptionPane.showMessageDialog(null, "Material editado com sucesso!");
+
+						ArrayList<Material> listaAtualizada = controller.getMateriais();
+						table.setModel(new ModeloTabela(listaAtualizada));
+					} catch (NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Quantidade deve ser número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
 				}
-				
 			}
 		});
 		btnEditarMaterial.setBounds(428, 23, 157, 23);
 		contentPanel.add(btnEditarMaterial);
-		
+
+		/**
+		 * Painel com barra de pesquisa e botão "Buscar".
+		 */
 		JPanel BarraPesquisa = new JPanel();
 		BarraPesquisa.setBounds(624, 23, 350, 30);
 		contentPanel.add(BarraPesquisa);
 		BarraPesquisa.setLayout(null);
-		
-		txtBusqueUmMaterial = new JTextField();
-		txtBusqueUmMaterial.setBounds(0, 5, 260, 20);
-		BarraPesquisa.add(txtBusqueUmMaterial);
-		txtBusqueUmMaterial.setText("Busque um material aqui");
-		txtBusqueUmMaterial.setToolTipText("");
-		txtBusqueUmMaterial.setColumns(10);
-		txtBusqueUmMaterial.addFocusListener(new java.awt.event.FocusAdapter() {
-		    @Override
-		    public void focusGained(java.awt.event.FocusEvent e) {
-		        if (txtBusqueUmMaterial.getText().equals("Busque um material aqui")) {
-		            txtBusqueUmMaterial.setText("");
-		        }
-		    }
 
-		    @Override
-		    public void focusLost(java.awt.event.FocusEvent e) {
-		        if (txtBusqueUmMaterial.getText().isEmpty()) {
-		            txtBusqueUmMaterial.setText("Busque um material aqui");
-		        }
-		    }
+		txtBusqueUmMaterial = new JTextField("Busque um material aqui");
+		txtBusqueUmMaterial.setBounds(0, 5, 260, 20);
+		txtBusqueUmMaterial.setColumns(10);
+		txtBusqueUmMaterial.setToolTipText("");
+		BarraPesquisa.add(txtBusqueUmMaterial);
+
+		// Comportamento do placeholder do campo de busca
+		txtBusqueUmMaterial.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
+			public void focusGained(java.awt.event.FocusEvent e) {
+				if (txtBusqueUmMaterial.getText().equals("Busque um material aqui")) {
+					txtBusqueUmMaterial.setText("");
+				}
+			}
+
+			@Override
+			public void focusLost(java.awt.event.FocusEvent e) {
+				if (txtBusqueUmMaterial.getText().isEmpty()) {
+					txtBusqueUmMaterial.setText("Busque um material aqui");
+				}
+			}
 		});
-		
+
+		/**
+		 * Botão que busca material pelo nome digitado.
+		 */
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nomeBuscado = null;
-				if (!txtBusqueUmMaterial.getText().isEmpty() && txtBusqueUmMaterial.getText() != null) {
-					nomeBuscado = txtBusqueUmMaterial.getText();
-				}
-				if (controller.botaoBuscarMaterial(nomeBuscado) != -1) {
-					int idEncontrado = controller.botaoBuscarMaterial(nomeBuscado);
+				String nomeBuscado = txtBusqueUmMaterial.getText();
+				if (nomeBuscado == null || nomeBuscado.isEmpty()) return;
+
+				int idEncontrado = controller.botaoBuscarMaterial(nomeBuscado);
+				if (idEncontrado != -1) {
 					table.setRowSelectionInterval(idEncontrado, idEncontrado);
 					table.scrollRectToVisible(table.getCellRect(idEncontrado, 0, true));
 				} else {
 					JOptionPane.showMessageDialog(null, "Nenhum material encontrado com esse nome.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 				}
-					
 			}
 		});
 		btnBuscar.setBounds(270, 4, 80, 23);
 		BarraPesquisa.add(btnBuscar);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			
-			{
-				JButton cancelButton = new JButton("Voltar");
-				buttonPane.add(cancelButton);
-				cancelButton.addActionListener(e -> {
-				    dispose();
-				});
-			}
-		}
+
+		/**
+		 * Painel inferior com botão "Voltar".
+		 */
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		JButton cancelButton = new JButton("Voltar");
+		cancelButton.addActionListener(e -> dispose());
+		buttonPane.add(cancelButton);
 	}
 }
