@@ -6,14 +6,40 @@ import java.time.LocalDateTime;
 public class MovimentacaoEstoque implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    // Atributos
+    /**
+     * Identificador único da movimentação.
+     */
     private int id;
-    private String tipo;  // ENTRADA ou SAIDA
+
+    /**
+     * Tipo da movimentação (ex: "ENTRADA" ou "SAIDA").
+     */
+    private String tipo;
+
+    /**
+     * Quantidade movimentada no estoque.
+     */
     private int qtdMovimentada;
+
+    /**
+     * Data e hora da movimentação.
+     */
     private LocalDateTime dataHora;
+
+    /**
+     * Material envolvido na movimentação.
+     */
     private Material materialMovimentado;
 
-    // Construtores
+    /**
+     * Construtor que inicializa todos os atributos da movimentação.
+     * 
+     * @param id identificador da movimentação
+     * @param tipo tipo da movimentação (ENTRADA ou SAIDA)
+     * @param qtdMovimentada quantidade movimentada
+     * @param dataHora data e hora da movimentação
+     * @param materialMovimentado material envolvido
+     */
     public MovimentacaoEstoque(int id, String tipo, int qtdMovimentada, LocalDateTime dataHora, Material materialMovimentado) {
         super();
         this.id = id;
@@ -23,43 +49,102 @@ public class MovimentacaoEstoque implements Serializable {
         this.materialMovimentado = materialMovimentado;
     }
 
+    /**
+     * Construtor padrão que inicializa a data e hora com o momento atual.
+     */
     public MovimentacaoEstoque() {
         this.dataHora = LocalDateTime.now();
     }
 
-	
-	// Getter e Setter
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-	public int getQtdNecessaria() {
-		return qtdMovimentada;
-	}
-	public void setQtdNecessaria(int qtdNecessaria) {
-		this.qtdMovimentada = qtdNecessaria;
-	}
-	public LocalDateTime getDataHora() {
-		return dataHora;
-	}
-	public void setDataHora(LocalDateTime dataHora) {
-		this.dataHora = dataHora;
-	}
-	public Material getMaterialMovimentado() {
-		return materialMovimentado;
-	}
-	public void setMaterialMovimentado(Material materialMovimentado) {
-		this.materialMovimentado = materialMovimentado;
-	}
-	
-	
-	// Metodos
+    /**
+     * Retorna o ID da movimentação.
+     * 
+     * @return id da movimentação
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Define o ID da movimentação.
+     * 
+     * @param id novo id da movimentação
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Retorna o tipo da movimentação.
+     * 
+     * @return tipo da movimentação
+     */
+    public String getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Define o tipo da movimentação.
+     * 
+     * @param tipo novo tipo da movimentação
+     */
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    /**
+     * Retorna a quantidade movimentada.
+     * 
+     * @return quantidade movimentada
+     */
+    public int getQtdNecessaria() {
+        return qtdMovimentada;
+    }
+
+    /**
+     * Define a quantidade movimentada.
+     * 
+     * @param qtdNecessaria nova quantidade movimentada
+     */
+    public void setQtdNecessaria(int qtdNecessaria) {
+        this.qtdMovimentada = qtdNecessaria;
+    }
+
+    /**
+     * Retorna a data e hora da movimentação.
+     * 
+     * @return data e hora da movimentação
+     */
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    /**
+     * Define a data e hora da movimentação.
+     * 
+     * @param dataHora nova data e hora da movimentação
+     */
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    /**
+     * Retorna o material envolvido na movimentação.
+     * 
+     * @return material movimentado
+     */
+    public Material getMaterialMovimentado() {
+        return materialMovimentado;
+    }
+
+    /**
+     * Define o material envolvido na movimentação.
+     * 
+     * @param materialMovimentado novo material movimentado
+     */
+    public void setMaterialMovimentado(Material materialMovimentado) {
+        this.materialMovimentado = materialMovimentado;
+    }
+
+    // Métodos adicionais podem ser implementados aqui
 }

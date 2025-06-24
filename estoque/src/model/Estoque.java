@@ -3,30 +3,44 @@ package model;
 import java.util.List;
 
 public class Estoque {
-	// Atributos
-	private List <Material> materiais;
+    /**
+     * Lista de materiais que compõem o estoque.
+     */
+    private List<Material> materiais;
 
-	
-	// Construtores
-	public Estoque(List<Material> materiais) {
-		this.materiais = materiais;
-	} 
-	public Estoque() {
-		
-	}
-	
-	
-	// Getter e Setter
-	public List<Material> getMateriais() {
-		return materiais;
-	}
-	public void setMateriais(List<Material> materiais) {
-		this.materiais = materiais;
-	}
-	
-	
-	// Metodos
-	
-	
+    /**
+     * Construtor que inicializa o estoque com uma lista de materiais fornecida.
+     * 
+     * @param materiais lista inicial de materiais do estoque
+     */
+    public Estoque(List<Material> materiais) {
+        this.materiais = materiais;
+    } 
+
+    /**
+     * Construtor padrão que cria um estoque vazio.
+     */
+    public Estoque() {
+    }
+
+    /**
+     * Retorna a lista de materiais do estoque.
+     * 
+     * @return lista de materiais
+     */
+    public List<Material> getMateriais() {
+        return materiais;
+    }
+
+    /**
+     * Define a lista de materiais do estoque.
+     * 
+     * @param materiais nova lista de materiais
+     */
+    public void setMateriais(List<Material> materiais) {
+        this.materiais = materiais;
+    }
+
+    // Métodos adicionais podem ser implementados aqui
 
 }
